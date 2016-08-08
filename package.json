@@ -1,0 +1,29 @@
+{
+  "name": "postcss-retina-bg-img",
+  "version": "0.0.0",
+  "description": "Automatically add retina background images",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test.js | tap-spec"
+  },
+  "keywords": [
+    "css",
+    "postcss",
+    "postcss-plugin"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "tap-spec": "^2.2.2",
+    "tape": "^3.5.0"
+  },
+  "homepage": "https://github.com/alexlafroscia/postcss-retina-bg-img",
+  "author": {
+    "name": "Alex LaFroscia",
+    "email": "alex@lafroscia.com",
+    "url": "https://github.com/alexlafroscia/postcss-retina-bg-img"
+  },
+  "repository": "alexlafroscia/postcss-retina-bg-img",
+  "dependencies": {
+    "postcss": "^4.1.11"
+  }
+}
