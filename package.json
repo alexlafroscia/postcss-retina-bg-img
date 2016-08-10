@@ -16,10 +16,12 @@
     "coverage": "npm run pretest && istanbul cover _mocha -- build/tests -R spec",
     "dist": "babel lib --out-dir dist",
     "lint": "eslint lib tests",
+    "mocha": "mocha build/tests",
     "prepublish": "npm run dist",
     "pretest": "npm run cleanup:build && npm run build",
-    "test": "npm run lint && mocha build/tests",
-    "test:nolint": "npm run pretest && mocha build/tests"
+    "test": "npm run lint && npm run mocha",
+    "test:ci": "npm run pretest && eslint --max-warnings 0 lib tests && npm run mocha",
+    "test:nolint": "npm run pretest && npm run mocha"
   },
   "keywords": [
     "css",

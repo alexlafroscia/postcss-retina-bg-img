@@ -17,9 +17,10 @@ module.exports = {
     quotes: ['error', 'single', {
       avoidEscape: true
     }],
+    'no-console': 'warn',
     semi: ['error','always'],
 
     // Mocha
-    'mocha/no-exclusive-tests': 'error'
+    'mocha/no-exclusive-tests': 'warn'
   }
 };

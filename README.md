@@ -1,4 +1,6 @@
-# [postcss][postcss]-retina-bg-img [![Build Status](https://travis-ci.org/alexlafroscia/postcss-retina-bg-img.svg?branch=master)][ci] [![NPM version](https://badge.fury.io/js/postcss-retina-bg-img.svg)][npm] [![Dependency Status](https://gemnasium.com/alexlafroscia/postcss-retina-bg-img.svg)][deps]
+# [postcss][postcss]-retina-bg-img
+
+[![Build Status](https://travis-ci.org/alexlafroscia/postcss-retina-bg-img.svg?branch=master)](https://travis-ci.org/alexlafroscia/postcss-retina-bg-img)
 
 > Automatically add retina background images
 
