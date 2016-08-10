@@ -1,2 +1,12 @@
+// Dependencies
 node_modules
+
+// Build directories
+build
+dist
+
+// Test results
+coverage
+
+// NPM files
 npm-debug.log
