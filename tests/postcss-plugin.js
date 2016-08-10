@@ -144,7 +144,7 @@ describe('PostCSS Plugin', function() {
       return run(css, {
         retinaSuffix: '_2x',
         mediaQuery: DEFAULT_MEDIA_QUERY,
-        assetDirectory: 'fixtures'
+        assetDirectory: baseOptions.assetDirectory
       }).then(function(output) {
         const mq = output.rules[1];
         const [ mqRule ] = mq.rules;
@@ -164,7 +164,7 @@ describe('PostCSS Plugin', function() {
       return run(css, {
         retinaSuffix: '@2x',
         mediaQuery: 'foo',
-        assetDirectory: 'fixtures'
+        assetDirectory: baseOptions.assetDirectory
       }).then(function(output) {
         const mq = output.rules[1];
 
@@ -188,7 +188,7 @@ describe('PostCSS Plugin', function() {
 
         return run(css, {
           retinaSuffix: '@2x',
-          assetDirectory: 'fixtures'
+          assetDirectory: baseOptions.assetDirectory
         }).then(function(output) {
           const mq = output.rules[1];
           const [ mqRule ] = mq.rules;
@@ -206,7 +206,7 @@ describe('PostCSS Plugin', function() {
 
         return run(css, {
           mediaQuery: DEFAULT_MEDIA_QUERY,
-          assetDirectory: 'fixtures'
+          assetDirectory: baseOptions.assetDirectory
         }).then(function(output) {
           const mq = output.rules[1];
           const [ mqRule ] = mq.rules;
