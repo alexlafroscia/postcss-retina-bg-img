@@ -16,6 +16,7 @@ export function run(input, options) {
     .process(input)
     .then((result) => {
       expect(result.warnings()).to.be.empty;
+
       return css.parse(result.css).stylesheet;
     });
 }

@@ -21,6 +21,37 @@ describe('PostCSS Plugin', function() {
     });
   });
 
+  it('merges media queries', function() {
+    const css = `
+      @media (min-width: 600px) {
+        a {
+          background-image: url('file-with-one-retina.txt');
+        }
+      }
+    `;
+
+    return run(css, baseOptions).then(function(output) {
+      const [ originalMqRule, newMqRule ] = output.rules;
+
+      expect(originalMqRule.media).to.equal('(min-width: 600px)');
+      expect(newMqRule.media).to.equal('(-webkit-min-device-pixel-ratio: 2) and (min-width: 600px), (min-resolution: 192dpi) and (min-width: 600px)');
+
+      expect(originalMqRule.rules[0].declarations[0].value).to.equal("url('file-with-one-retina.txt')");
+      expect(newMqRule.rules[0].declarations[0].value).to.equal("url('file-with-one-retina@2x.txt')");
+
+      output.rules.forEach(function(mq) {
+        expect(mq.type).to.equal('media');
+        expect(mq.rules.length).to.equal(1);
+
+        const [ firstRule ] = mq.rules;
+        expect(firstRule.selectors).to.deep.equal(['a']);
+
+        const [ decl ] = firstRule.declarations;
+        expect(decl.property).to.equal('background-image');
+      });
+    });
+  });
+
   describe('`background-image` property', function() {
     it('adds the retina version of the provided image', function() {
       const css = `
@@ -64,7 +95,7 @@ describe('PostCSS Plugin', function() {
       });
     });
 
-    it('does add anything if an image is not present', function() {
+    it('does not add anything if an image is not present', function() {
       const css = `
         a {
           background: red;
