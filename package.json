@@ -1,6 +1,6 @@
 {
   "name": "postcss-retina-bg-img",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Automatically add retina background images",
   "main": "dist/index.js",
   "files": [
