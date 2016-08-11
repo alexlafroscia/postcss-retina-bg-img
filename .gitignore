@@ -7,6 +7,7 @@ dist
 
 // Test results
 coverage
+.nyc_output
 
 // NPM files
 npm-debug.log
