@@ -1,6 +1,7 @@
 # [postcss][postcss]-retina-bg-img
 
 [![Build Status](https://travis-ci.org/alexlafroscia/postcss-retina-bg-img.svg?branch=master)][ci]
+[![Coverage Status](https://coveralls.io/repos/github/alexlafroscia/postcss-retina-bg-img/badge.svg?branch=master)][coverage]
 
 > Automatically add retina background images to CSS selectors
 
@@ -169,6 +170,7 @@ Pull requests are welcome. If you add functionality, then please add unit tests 
 
 MIT © [Alex LaFroscia](https://github.com/alexlafroscia/postcss-retina-bg-img)
 
-[ci]:      https://travis-ci.org/alexlafroscia/postcss-retina-bg-img
-[issues]:  https://github.com/alexlafroscia/postcss-retina-bg-img/issues
-[postcss]: https://github.com/postcss/postcss
+[ci]:       https://travis-ci.org/alexlafroscia/postcss-retina-bg-img
+[coverage]: https://coveralls.io/github/alexlafroscia/postcss-retina-bg-img?branch=master
+[issues]:   https://github.com/alexlafroscia/postcss-retina-bg-img/issues
+[postcss]:  https://github.com/postcss/postcss
