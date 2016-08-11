@@ -11,25 +11,19 @@ function fixturePath(fileName) {
 
 describe('finding the retina image', function() {
   it('works when a single suffix is provided', function() {
-    const retinaName = findRetinaImage(fixturePath('file-with-one-retina.txt'), {
-      retinaSuffix: '@2x'
-    });
+    const retinaName = findRetinaImage(fixturePath('file-with-one-retina.txt'), '@2x');
 
     expect(retinaName).to.equal(fixturePath('file-with-one-retina@2x.txt'));
   });
 
   it('works when multiple suffixes are provided', function() {
-    const retinaName = findRetinaImage(fixturePath('file-with-other-retina.txt'), {
-      retinaSuffix: ['@2x', '_2x']
-    });
+    const retinaName = findRetinaImage(fixturePath('file-with-other-retina.txt'), ['@2x', '_2x']);
 
     expect(retinaName).to.equal(fixturePath('file-with-other-retina_2x.txt'));
   });
 
   it('fails to locate a file without a matching retina version', function() {
-    const retinaName = findRetinaImage(fixturePath('file-without-retina.txt'), {
-      retinaSuffix: '@2x'
-    });
+    const retinaName = findRetinaImage(fixturePath('file-without-retina.txt'), '@2x');
 
     expect(retinaName).to.be.undefined;
   });
