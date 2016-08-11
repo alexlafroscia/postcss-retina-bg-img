@@ -15,6 +15,9 @@ export function run(input, options) {
     .then((result) => {
       expect(result.warnings()).to.be.empty;
 
-      return postcss.parse(result.css);
+      return {
+        output: postcss.parse(result.css),
+        warnings: result.warnings()
+      };
     });
 }

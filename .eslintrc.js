@@ -21,6 +21,8 @@ module.exports = {
     semi: ['error','always'],
 
     // Mocha
-    'mocha/no-exclusive-tests': 'warn'
+    'mocha/no-exclusive-tests': 'warn',
+    'mocha/no-pending-tests': 'warn',
+    'mocha/no-skipped-tests': 'warn'
   }
 };

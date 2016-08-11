@@ -16,7 +16,7 @@ describe('PostCSS Plugin', function() {
       }
     `;
 
-    return run(css, baseOptions).then(function(output) {
+    return run(css, baseOptions).then(function({ output }) {
       expect(output.nodes.length).to.equal(1);
       expect(output.nodes[0].type).to.equal('rule');
     });
@@ -31,7 +31,7 @@ describe('PostCSS Plugin', function() {
       }
     `;
 
-    return run(css, baseOptions).then(function(output) {
+    return run(css, baseOptions).then(function({ output }) {
       const [ originalMqRule, newMqRule ] = output.nodes;
 
       expect(originalMqRule.params).to.equal('(min-width: 600px)');
@@ -62,7 +62,7 @@ describe('PostCSS Plugin', function() {
         }
       `;
 
-      return run(css, baseOptions).then(function(output) {
+      return run(css, baseOptions).then(function({ output }) {
         const mq = output.nodes[1];
         expect(mq.type).to.equal('atrule');
         expect(mq.name).to.equal('media');
@@ -85,7 +85,7 @@ describe('PostCSS Plugin', function() {
         }
       `;
 
-      return run(css, baseOptions).then(function(output) {
+      return run(css, baseOptions).then(function({ output }) {
         const mq = output.nodes[1];
         expect(mq.type).to.equal('atrule');
         expect(mq.name).to.equal('media');
@@ -106,7 +106,7 @@ describe('PostCSS Plugin', function() {
         }
       `;
 
-      return run(css, baseOptions).then(function(output) {
+      return run(css, baseOptions).then(function({ output }) {
         expect(output.nodes.length).to.equal(1);
 
         const [ rule ] = output.nodes;
@@ -123,7 +123,7 @@ describe('PostCSS Plugin', function() {
         }
       `;
 
-      return run(css, baseOptions).then(function(output) {
+      return run(css, baseOptions).then(function({ output }) {
         const mq = output.nodes[1];
         expect(mq.type).to.equal('atrule');
         expect(mq.name).to.equal('media');
@@ -138,6 +138,41 @@ describe('PostCSS Plugin', function() {
     });
   });
 
+  describe('avoiding existing retina images', function() {
+    it('does not add a retina rule of one already exists for the selector', function() {
+      const providedRetinaBackgroundProperty = "url('some-other-retina-image.txt')";
+      const css = `
+        a {
+          background-image: url('file-with-one-retina.txt');
+        }
+
+        @media ${DEFAULT_MEDIA_QUERY} {
+          a {
+            background-image: ${providedRetinaBackgroundProperty};
+          }
+        }
+      `;
+
+      return run(css, baseOptions).then(function({ output }) {
+        expect(output.nodes.length).to.equal(2);
+
+        const oldMediaQuery = output.nodes[1];
+
+        expect(oldMediaQuery.type).to.equal('atrule');
+        expect(oldMediaQuery.name).to.equal('media');
+
+        const [ rule ] = oldMediaQuery.nodes;
+        const [ decl ] = rule.nodes;
+
+        expect(decl.value).to.equal(providedRetinaBackgroundProperty);
+      });
+    });
+
+    it('avoids adding retina rules for nested media queries');
+
+    it('warns the user about retina rules that could be removed from the source');
+  });
+
   describe('options', function() {
     it('can be given an retina suffix', function() {
       const css = `
@@ -150,7 +185,7 @@ describe('PostCSS Plugin', function() {
         retinaSuffix: '_2x',
         mediaQuery: DEFAULT_MEDIA_QUERY,
         assetDirectory: baseOptions.assetDirectory
-      }).then(function(output) {
+      }).then(function({ output }) {
         const mq = output.nodes[1];
         const [ mqRule ] = mq.nodes;
         const [ decl ] = mqRule.nodes;
@@ -170,7 +205,7 @@ describe('PostCSS Plugin', function() {
         retinaSuffix: '@2x',
         mediaQuery: 'foo',
         assetDirectory: baseOptions.assetDirectory
-      }).then(function(output) {
+      }).then(function({ output }) {
         const mq = output.nodes[1];
 
         expect(mq.params).to.equal('foo');
@@ -194,7 +229,7 @@ describe('PostCSS Plugin', function() {
         return run(css, {
           retinaSuffix: '@2x',
           assetDirectory: baseOptions.assetDirectory
-        }).then(function(output) {
+        }).then(function({ output }) {
           const mq = output.nodes[1];
           const { params } = mq;
 
@@ -212,7 +247,7 @@ describe('PostCSS Plugin', function() {
         return run(css, {
           mediaQuery: DEFAULT_MEDIA_QUERY,
           assetDirectory: baseOptions.assetDirectory
-        }).then(function(output) {
+        }).then(function({ output }) {
           const mq = output.nodes[1];
           const [ mqRule ] = mq.nodes;
           const [ decl ] = mqRule.nodes;
