@@ -196,9 +196,9 @@ describe('PostCSS Plugin', function() {
           assetDirectory: baseOptions.assetDirectory
         }).then(function(output) {
           const mq = output.nodes[1];
-          const [ mqRule ] = mq.nodes;
+          const { params } = mq;
 
-          expect(mqRule.value).to.equal(DEFAULT_MEDIA_QUERY);
+          expect(params).to.equal(DEFAULT_MEDIA_QUERY);
         });
       });
 
