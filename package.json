@@ -20,7 +20,7 @@
     "prepublish": "npm run dist",
     "pretest": "npm run cleanup:build && npm run build",
     "test": "npm run lint && npm run mocha",
-    "test:ci": "npm run pretest && eslint --max-warnings 0 lib tests && npm run mocha",
+    "test:ci": "eslint --max-warnings 0 lib tests && npm run coverage",
     "test:nolint": "npm run pretest && npm run mocha"
   },
   "keywords": [
