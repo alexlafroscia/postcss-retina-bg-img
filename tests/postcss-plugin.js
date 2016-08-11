@@ -17,7 +17,8 @@ describe('PostCSS Plugin', function() {
     `;
 
     return run(css, baseOptions).then(function(output) {
-      expect(output.rules.length).to.equal(1);
+      expect(output.nodes.length).to.equal(1);
+      expect(output.nodes[0].type).to.equal('rule');
     });
   });
 
@@ -31,23 +32,24 @@ describe('PostCSS Plugin', function() {
     `;
 
     return run(css, baseOptions).then(function(output) {
-      const [ originalMqRule, newMqRule ] = output.rules;
+      const [ originalMqRule, newMqRule ] = output.nodes;
 
-      expect(originalMqRule.media).to.equal('(min-width: 600px)');
-      expect(newMqRule.media).to.equal('(-webkit-min-device-pixel-ratio: 2) and (min-width: 600px), (min-resolution: 192dpi) and (min-width: 600px)');
+      expect(originalMqRule.params).to.equal('(min-width: 600px)');
+      expect(newMqRule.params).to.equal('(-webkit-min-device-pixel-ratio: 2) and (min-width: 600px), (min-resolution: 192dpi) and (min-width: 600px)');
 
-      expect(originalMqRule.rules[0].declarations[0].value).to.equal("url('file-with-one-retina.txt')");
-      expect(newMqRule.rules[0].declarations[0].value).to.equal("url('file-with-one-retina@2x.txt')");
+      expect(originalMqRule.nodes[0].nodes[0].value).to.equal("url('file-with-one-retina.txt')");
+      expect(newMqRule.nodes[0].nodes[0].value).to.equal("url('file-with-one-retina@2x.txt')");
 
-      output.rules.forEach(function(mq) {
-        expect(mq.type).to.equal('media');
-        expect(mq.rules.length).to.equal(1);
+      output.nodes.forEach(function(mq) {
+        expect(mq.type).to.equal('atrule');
+        expect(mq.name).to.equal('media');
+        expect(mq.nodes.length).to.equal(1);
 
-        const [ firstRule ] = mq.rules;
-        expect(firstRule.selectors).to.deep.equal(['a']);
+        const [ firstRule ] = mq.nodes;
+        expect(firstRule.selector).to.equal('a');
 
-        const [ decl ] = firstRule.declarations;
-        expect(decl.property).to.equal('background-image');
+        const [ decl ] = firstRule.nodes;
+        expect(decl.prop).to.equal('background-image');
       });
     });
   });
@@ -61,14 +63,15 @@ describe('PostCSS Plugin', function() {
       `;
 
       return run(css, baseOptions).then(function(output) {
-        const mq = output.rules[1];
-        expect(mq.type).to.equal('media');
+        const mq = output.nodes[1];
+        expect(mq.type).to.equal('atrule');
+        expect(mq.name).to.equal('media');
 
-        const [ mqRule ] = mq.rules;
-        expect(mqRule.selectors).to.deep.equal(['a']);
+        const [ mqRule ] = mq.nodes;
+        expect(mqRule.selector).to.equal('a');
 
-        const [ decl ] = mqRule.declarations;
-        expect(decl.property).to.equal('background-image');
+        const [ decl ] = mqRule.nodes;
+        expect(decl.prop).to.equal('background-image');
         expect(decl.value).to.equal("url('file-with-one-retina@2x.txt')");
       });
     });
@@ -83,14 +86,15 @@ describe('PostCSS Plugin', function() {
       `;
 
       return run(css, baseOptions).then(function(output) {
-        const mq = output.rules[1];
-        expect(mq.type).to.equal('media');
+        const mq = output.nodes[1];
+        expect(mq.type).to.equal('atrule');
+        expect(mq.name).to.equal('media');
 
-        const [ mqRule ] = mq.rules;
-        expect(mqRule.selectors).to.deep.equal(['a']);
+        const [ mqRule ] = mq.nodes;
+        expect(mqRule.selector).to.equal('a');
 
-        const [ decl ] = mqRule.declarations;
-        expect(decl.property).to.equal('background-image');
+        const [ decl ] = mqRule.nodes;
+        expect(decl.prop).to.equal('background-image');
         expect(decl.value).to.equal("url('file-with-one-retina@2x.txt')");
       });
     });
@@ -103,10 +107,10 @@ describe('PostCSS Plugin', function() {
       `;
 
       return run(css, baseOptions).then(function(output) {
-        expect(output.rules.length).to.equal(1);
+        expect(output.nodes.length).to.equal(1);
 
-        const [ rule ] = output.rules;
-        const [ decl ] = rule.declarations;
+        const [ rule ] = output.nodes;
+        const [ decl ] = rule.nodes;
 
         expect(decl.value).to.equal('red');
       });
@@ -120,14 +124,15 @@ describe('PostCSS Plugin', function() {
       `;
 
       return run(css, baseOptions).then(function(output) {
-        const mq = output.rules[1];
-        expect(mq.type).to.equal('media');
+        const mq = output.nodes[1];
+        expect(mq.type).to.equal('atrule');
+        expect(mq.name).to.equal('media');
 
-        const [ mqRule ] = mq.rules;
-        expect(mqRule.selectors).to.deep.equal(['a']);
+        const [ mqRule ] = mq.nodes;
+        expect(mqRule.selector).to.equal('a');
 
-        const [ decl ] = mqRule.declarations;
-        expect(decl.property).to.equal('background-image');
+        const [ decl ] = mqRule.nodes;
+        expect(decl.prop).to.equal('background-image');
         expect(decl.value).to.equal("url('file-with-one-retina@2x.txt')");
       });
     });
@@ -146,9 +151,9 @@ describe('PostCSS Plugin', function() {
         mediaQuery: DEFAULT_MEDIA_QUERY,
         assetDirectory: baseOptions.assetDirectory
       }).then(function(output) {
-        const mq = output.rules[1];
-        const [ mqRule ] = mq.rules;
-        const [ decl ] = mqRule.declarations;
+        const mq = output.nodes[1];
+        const [ mqRule ] = mq.nodes;
+        const [ decl ] = mqRule.nodes;
 
         expect(decl.value).to.equal("url('file-with-other-retina_2x.txt')");
       });
@@ -166,9 +171,9 @@ describe('PostCSS Plugin', function() {
         mediaQuery: 'foo',
         assetDirectory: baseOptions.assetDirectory
       }).then(function(output) {
-        const mq = output.rules[1];
+        const mq = output.nodes[1];
 
-        expect(mq.media).to.equal('foo');
+        expect(mq.params).to.equal('foo');
       });
     });
 
@@ -190,8 +195,8 @@ describe('PostCSS Plugin', function() {
           retinaSuffix: '@2x',
           assetDirectory: baseOptions.assetDirectory
         }).then(function(output) {
-          const mq = output.rules[1];
-          const [ mqRule ] = mq.rules;
+          const mq = output.nodes[1];
+          const [ mqRule ] = mq.nodes;
 
           expect(mqRule.value).to.equal(DEFAULT_MEDIA_QUERY);
         });
@@ -208,9 +213,9 @@ describe('PostCSS Plugin', function() {
           mediaQuery: DEFAULT_MEDIA_QUERY,
           assetDirectory: baseOptions.assetDirectory
         }).then(function(output) {
-          const mq = output.rules[1];
-          const [ mqRule ] = mq.rules;
-          const [ decl ] = mqRule.declarations;
+          const mq = output.nodes[1];
+          const [ mqRule ] = mq.nodes;
+          const [ decl ] = mqRule.nodes;
 
           expect(decl.value).to.equal("url('file-with-one-retina@2x.txt')");
         });

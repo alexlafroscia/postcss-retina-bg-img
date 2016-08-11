@@ -1,10 +1,6 @@
 import { resolve } from 'path';
-
 import { expect } from 'chai';
-
 import postcss from 'postcss';
-import css from 'css';
-
 import bgImage, { DEFAULT_MEDIA_QUERY } from '../../lib/index.js';
 
 export const baseOptions = {
@@ -19,6 +15,6 @@ export function run(input, options) {
     .then((result) => {
       expect(result.warnings()).to.be.empty;
 
-      return css.parse(result.css).stylesheet;
+      return postcss.parse(result.css);
     });
 }
