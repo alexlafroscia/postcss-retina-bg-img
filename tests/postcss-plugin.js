@@ -55,6 +55,22 @@ describe('PostCSS Plugin', function() {
   });
 
   describe('handling different types of background images', function() {
+    it('maintains absolute URL paths to images', function() {
+      const css = `
+        a {
+          background-image: url('/file-with-one-retina.txt');
+        }
+      `;
+
+      return run(css, baseOptions).then(function({ output }) {
+        const [ , mq ] = output.nodes;
+        const [ retinaRule ] = mq.nodes;
+        const [ bgDecl ] = retinaRule.nodes;
+
+        expect(bgDecl.value).to.equal("url('/file-with-one-retina@2x.txt')");
+      });
+    });
+
     it('ignores full URL paths to images', function() {
       const css = `
         a {
