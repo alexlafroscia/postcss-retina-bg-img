@@ -54,6 +54,24 @@ describe('PostCSS Plugin', function() {
     });
   });
 
+  describe('handling different types of background images', function() {
+    it('ignores full URL paths to images', function() {
+      const css = `
+        a {
+          background-image: url('http://foo.com/bar.jpg');
+        }
+
+        b {
+          background-iamge: url('https://foo.com/bar.jpg');
+        }
+      `;
+
+      return run(css, baseOptions).then(function({ output }) {
+        expect(output.nodes.length).to.equal(2);
+      });
+    });
+  });
+
   describe('`background-image` property', function() {
     it('adds the retina version of the provided image', function() {
       const css = `
