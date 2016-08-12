@@ -4,7 +4,7 @@ import chaiAsPromised from 'chai-as-promised';
 import { baseOptions, run } from './helpers';
 
 import postcss from 'postcss';
-import bgImage, { DEFAULT_MEDIA_QUERY } from '../lib/index.js';
+import bgImage, { DEFAULT_MEDIA_QUERY } from '../lib/postcss-plugin.js';
 
 chai.use(chaiAsPromised);
 
@@ -153,7 +153,7 @@ describe('PostCSS Plugin', function() {
         }
       `;
 
-      return run(css, baseOptions).then(function({ output }) {
+      return run(css, baseOptions).then(function({ output, warnings }) {
         expect(output.nodes.length).to.equal(2);
 
         const oldMediaQuery = output.nodes[1];
@@ -165,12 +165,97 @@ describe('PostCSS Plugin', function() {
         const [ decl ] = rule.nodes;
 
         expect(decl.value).to.equal(providedRetinaBackgroundProperty);
+
+        expect(warnings).to.be.empty;
       });
     });
 
-    it('avoids adding retina rules for nested media queries');
+    it('issues a warning to the developer if a manually defined bg image matches the generated one', function() {
+      const providedRetinaBackgroundProperty = "url('file-with-one-retina@2x.txt')";
+      const css = `
+        a {
+          background-image: url('file-with-one-retina.txt');
+        }
 
-    it('warns the user about retina rules that could be removed from the source');
+        @media ${DEFAULT_MEDIA_QUERY} {
+          a {
+            background-image: ${providedRetinaBackgroundProperty};
+          }
+        }
+      `;
+
+      return run(css, baseOptions).then(function({ output, warnings }) {
+        expect(output.nodes.length).to.equal(2);
+
+        const oldMediaQuery = output.nodes[1];
+
+        expect(oldMediaQuery.type).to.equal('atrule');
+        expect(oldMediaQuery.name).to.equal('media');
+
+        const [ rule ] = oldMediaQuery.nodes;
+        const [ decl ] = rule.nodes;
+
+        expect(decl.value).to.equal(providedRetinaBackgroundProperty);
+
+        const [ warning ] = warnings;
+
+        expect(warnings.length).to.equal(1);
+        expect(warning.line).to.equal(8);
+        expect(warning.column).to.equal(13);
+        expect(warning.text).to.equal('Unncessary retina image provided; the same will be generated automatically');
+      });
+    });
+
+    it('does nothing with existing media queries that do not specify a background image', function() {
+      const css = `
+        a {
+          background: red;
+        }
+
+        @media ${DEFAULT_MEDIA_QUERY} {
+          a {
+            background: blue;
+          }
+        }
+      `;
+
+      return run(css, baseOptions).then(function({ output, warnings }) {
+        expect(output.nodes.length).to.equal(2);
+        expect(warnings).to.be.empty;
+      });
+    });
+
+    it('works with nested media queries', function() {
+      const css = `
+        @media (min-width: 600px) {
+          a {
+            background-image: url('file-with-one-retina.txt');
+          }
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2) and (min-width: 600px), (min-resolution: 192dpi) and (min-width: 600px) {
+          a {
+            background-image: url('file-with-one-retina@2x.txt');
+          }
+        }
+      `;
+
+      return run(css, baseOptions).then(function({ output, warnings }) {
+        expect(output.nodes.length).to.equal(2);
+
+        output.nodes.forEach(function(mq) {
+          expect(mq.type).to.equal('atrule');
+          expect(mq.name).to.equal('media');
+        });
+
+        const [ firstRule, secondRule ] = output.nodes;
+
+        expect(firstRule.params).to.equal('(min-width: 600px)');
+        expect(secondRule.params).to.equal('(-webkit-min-device-pixel-ratio: 2) and (min-width: 600px), (min-resolution: 192dpi) and (min-width: 600px)');
+
+        expect(warnings.length).to.equal(1);
+      });
+    });
   });
 
   describe('options', function() {

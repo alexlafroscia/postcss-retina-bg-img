@@ -2,7 +2,7 @@
   "name": "postcss-retina-bg-img",
   "version": "1.0.1",
   "description": "Automatically add retina background images",
-  "main": "dist/index.js",
+  "main": "dist/postcss-plugin.js",
   "files": [
     "dist"
   ],

@@ -1,7 +1,6 @@
 import { resolve } from 'path';
-import { expect } from 'chai';
 import postcss from 'postcss';
-import bgImage, { DEFAULT_MEDIA_QUERY } from '../../lib/index.js';
+import bgImage, { DEFAULT_MEDIA_QUERY } from '../../lib/postcss-plugin.js';
 
 export const baseOptions = {
   retinaSuffix: '@2x',
@@ -13,8 +12,6 @@ export function run(input, options) {
   return postcss([ bgImage(options) ])
     .process(input)
     .then((result) => {
-      expect(result.warnings()).to.be.empty;
-
       return {
         output: postcss.parse(result.css),
         warnings: result.warnings()
