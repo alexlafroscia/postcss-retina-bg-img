@@ -172,6 +172,25 @@ describe('PostCSS Plugin', function() {
     });
   });
 
+  describe('`list-style-image` property', function() {
+    it('adds the retina version of the provided image', function() {
+      const css = `
+        li {
+          list-style-image: url('file-with-one-retina.txt');
+        }
+      `;
+
+      return run(css, baseOptions).then(function({ output }) {
+        const [ , mq ] = output.nodes;
+        const [ mqRule ] = mq.nodes;
+        const [ decl ] = mqRule.nodes;
+
+        expect(output.nodes.length).to.equal(2);
+        expect(decl.value).to.equal("url('file-with-one-retina@2x.txt')");
+      });
+    });
+  });
+
   describe('avoiding existing retina images', function() {
     it('does not add a retina rule of one already exists for the selector', function() {
       const providedRetinaBackgroundProperty = "url('some-other-retina-image.txt')";

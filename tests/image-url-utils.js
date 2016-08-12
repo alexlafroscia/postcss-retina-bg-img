@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { isFullUrlPath, isAbsoluteFilePath, makeAbsoluteFilePath } from '../lib/image-url-utils';
+import { isFullUrlPath, isAbsoluteFilePath, makeAbsoluteFilePath } from '../lib/utils/image-url';
 
 describe('isFullUrlPath', function() {
   it('accepts an HTTP string', function() {

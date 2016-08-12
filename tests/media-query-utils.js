@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { queryCoversRange, distributeQueryAcrossQuery } from '../lib/media-query-utils';
+import { queryCoversRange, distributeQueryAcrossQuery } from '../lib/utils/media-query';
 
 describe('queryCoversRange', function() {
   describe('matches', function() {
