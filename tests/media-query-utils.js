@@ -78,4 +78,20 @@ describe('distributeQueryAcrossQuery', function() {
 
     expect(result).to.equal('(min-width: 600px) and screen, (max-width: 800px) and screen');
   });
+
+  it('combines a media query with more than two parts', function() {
+    const a = '(min-width: 600px), (min-width: 700px), (min-width: 800px)';
+    const b = 'screen';
+    const result = distributeQueryAcrossQuery(a, b);
+
+    expect(result).to.equal('(min-width: 600px) and screen, (min-width: 700px) and screen, (min-width: 800px) and screen');
+  });
+
+  it('combines two media queries with multiple parts', function() {
+    const a = 'foo, bar';
+    const b = 'baz, bop';
+    const result = distributeQueryAcrossQuery(a, b);
+
+    expect(result).to.equal('foo and baz, foo and bop, bar and baz, bar and bop');
+  });
 });
