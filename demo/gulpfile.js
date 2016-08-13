@@ -10,7 +10,9 @@ gulp.task('default', function() {
       retinaBgImg({
         assetDirectory: resolve(__dirname, '../build/tests/fixtures')
       }),
-      reporter
+      reporter({
+        clearMessages: true
+      })
     ]))
     .pipe(gulp.dest('./output'));
 });

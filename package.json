@@ -14,7 +14,7 @@
     "cleanup:build": "rm -rf build",
     "cleanup:dist": "rm -rf dist",
     "coverage": "npm run pretest && nyc mocha build/tests",
-    "demo": "cd demo && gulp && echo '\n=== Ouput file ===\n' && cat output/app.css",
+    "demo": "cd demo && gulp && echo '' && cat output/app.css",
     "dist": "BABEL_ENV=production babel lib --out-dir dist",
     "lint": "eslint lib tests",
     "mocha": "mocha build/tests",

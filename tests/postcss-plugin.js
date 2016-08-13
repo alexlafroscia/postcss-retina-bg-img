@@ -16,9 +16,17 @@ describe('PostCSS Plugin', function() {
       }
     `;
 
-    return run(css, baseOptions).then(function({ output }) {
+    return run(css, baseOptions).then(function({ output, warnings }) {
       expect(output.nodes.length).to.equal(1);
       expect(output.nodes[0].type).to.equal('rule');
+
+      expect(warnings.length).to.equal(1);
+
+      const [ warning ] = warnings;
+
+      expect(warning.line).to.equal(3);
+      expect(warning.column).to.equal(9);
+      expect(warning.text).to.equal('Could not find retina verion for `file-without-retina.txt`');
     });
   });
 
