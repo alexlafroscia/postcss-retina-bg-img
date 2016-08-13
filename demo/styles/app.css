@@ -1,0 +1,17 @@
+.regular-image {
+  background-image: url('file-with-one-retina.txt');
+}
+
+.no-retina {
+  background-image: url('file-with-no-retina.txt');
+}
+
+.explicit-retina-image {
+  background-image: url('file-with-one-retina.txt');
+}
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .explicit-retina-image {
+    background-image: url('file-with-one-retina@2x.txt');
+  }
+}

@@ -14,6 +14,7 @@
     "cleanup:build": "rm -rf build",
     "cleanup:dist": "rm -rf dist",
     "coverage": "npm run pretest && nyc mocha build/tests",
+    "demo": "cd demo && gulp && echo '\n=== Ouput file ===\n' && cat output/app.css",
     "dist": "BABEL_ENV=production babel lib --out-dir dist",
     "lint": "eslint lib tests",
     "mocha": "mocha build/tests",
@@ -41,8 +42,11 @@
     "coveralls": "^2.11.12",
     "eslint": "^3.2.2",
     "eslint-plugin-mocha": "^4.3.0",
+    "gulp": "^3.9.1",
+    "gulp-postcss": "^6.1.1",
     "mocha": "^3.0.2",
-    "nyc": "^7.1.0"
+    "nyc": "^7.1.0",
+    "postcss-reporter": "^1.4.1"
   },
   "homepage": "https://github.com/alexlafroscia/postcss-retina-bg-img",
   "author": {

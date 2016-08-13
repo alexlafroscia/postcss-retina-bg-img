@@ -11,3 +11,6 @@ coverage
 
 // NPM files
 npm-debug.log
+
+// In-repo demo
+demo/output
