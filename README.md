@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/alexlafroscia/postcss-retina-bg-img.svg?branch=master)][ci]
 [![Coverage Status](https://coveralls.io/repos/github/alexlafroscia/postcss-retina-bg-img/badge.svg?branch=master)][coverage]
+[![Inline docs](http://inch-ci.org/github/alexlafroscia/postcss-retina-bg-img.svg?branch=master)](http://inch-ci.org/github/alexlafroscia/postcss-retina-bg-img)
 
 > Automatically add retina background images to CSS selectors
 
