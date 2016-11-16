@@ -94,6 +94,22 @@ describe('PostCSS Plugin', function() {
         expect(output.nodes.length).to.equal(2);
       });
     });
+
+    it('finds images with relative paths', function() {
+      const css = `
+        a {
+          background-image: url('./fixtures/file-with-one-retina.txt');
+        }
+      `;
+
+      return run(css, {}).then(function({ output }) {
+        const [ , mq ] = output.nodes;
+        const [ retinaRule ] = mq.nodes;
+        const [ bgDecl ] = retinaRule.nodes;
+
+        expect(bgDecl.value).to.equal("url('./fixtures/file-with-one-retina@2x.txt')");
+      });
+    });
   });
 
   describe('`background-image` property', function() {

@@ -10,7 +10,7 @@ export const baseOptions = {
 
 export function run(input, options) {
   return postcss([ bgImage(options) ])
-    .process(input)
+    .process(input, {from: 'tests/test.css'})
     .then((result) => {
       return {
         output: postcss.parse(result.css),
