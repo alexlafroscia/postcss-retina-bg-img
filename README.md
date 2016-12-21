@@ -63,7 +63,8 @@ import retinaBgImage from 'postcss-retina-bg-img';
 const options = {
   retinaSuffix: '...',
   mediaQuery: '...',
-  assetDirectory: '...'
+  assetDirectory: '...',
+  includeFileExtensions: [ '...' ]
 };
 
 return postcss([ retinaBgImage(options) ]).process(input);
@@ -110,6 +111,13 @@ For example, if your CSS links to an image like so:
 ```
 
 then the `assetDirectory` should be the *absolute path on the filesystem* to wherever `assets` lives.  This is necessary because this plugin will only add media queries for files that actually exist; to determine their existence, we must be able to actually find the file.
+
+##### includeFileExtensions *(optional)*
+
+Type: `string[]`
+Default `['png', 'jpg']`
+
+The file extensions to act on. Without a whitelist of file types, you'll end up checking for retina versions of `svg` files and the like, which you may not actually want to act on.  If you need to check anything other than `png` or `jpg` files, simply define an array of file extensions here.
 
 ## Usage
 
