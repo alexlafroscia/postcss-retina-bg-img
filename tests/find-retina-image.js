@@ -32,6 +32,12 @@ describe('finding the retina image', function() {
     expect(retinaName).to.be.undefined;
   });
 
+  it('works when the filename shows up in the filepath', function() {
+    const retinaName = findRetinaImage('subfolder/2/2.png', fixturePath, '@2x');
+
+    expect(retinaName).to.equal('subfolder/2/2@2x.png');
+  });
+
   describe('default options', function() {
     it('falls back to using `@2x` for the retina suffix', function() {
       const retinaName = findRetinaImage('file-with-one-retina.png', fixturePath);
