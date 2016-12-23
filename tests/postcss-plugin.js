@@ -26,7 +26,7 @@ describe('PostCSS Plugin', function() {
 
       expect(warning.line).to.equal(3);
       expect(warning.column).to.equal(9);
-      expect(warning.text).to.equal('Could not find retina verion for `file-without-retina.png`');
+      expect(warning.text).to.equal('Could not find retina version for `file-without-retina.png`');
     });
   });
 
