@@ -2,27 +2,16 @@
   "name": "postcss-retina-bg-img",
   "version": "2.1.1",
   "description": "Automatically add retina background images",
-  "main": "dist/postcss-plugin.js",
+  "main": "lib/postcss-plugin.js",
   "files": [
-    "dist"
+    "lib"
   ],
   "scripts": {
-    "build": "npm run build:lib && npm run build:test",
-    "build:lib": "BABEL_ENV=test babel lib --out-dir build/lib",
-    "build:test": "BABEL_ENV=test babel tests --ignore tests/fixtures --out-dir build/tests && cp -R tests/fixtures build/tests/fixtures",
-    "cleanup": "npm run cleanup:build && npm run cleanup:dist",
-    "cleanup:build": "rm -rf build",
-    "cleanup:dist": "rm -rf dist",
     "coverage": "npm run pretest && nyc mocha build/tests",
     "demo": "cd demo && gulp && echo '' && cat output/app.css",
-    "dist": "BABEL_ENV=production babel lib --out-dir dist",
     "lint": "eslint lib tests",
-    "mocha": "mocha build/tests",
-    "prepublish": "npm run dist",
-    "pretest": "npm run cleanup:build && npm run build",
-    "test": "npm run lint && npm run mocha",
-    "test:ci": "eslint --max-warnings 0 lib tests && npm run coverage && cat ./coverage/lcov.info | coveralls",
-    "test:nolint": "npm run pretest && npm run mocha"
+    "mocha": "mocha tests",
+    "test": "npm run lint && npm run mocha"
   },
   "keywords": [
     "css",
@@ -34,7 +23,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "^6.11.4",
+    "babel-cli": "^6.18.0",
     "babel-plugin-istanbul": "^1.0.3",
     "babel-preset-es2015": "^6.13.2",
     "chai": "^3.5.0",

@@ -1,14 +1,15 @@
-import { resolve } from 'path';
-import postcss from 'postcss';
-import bgImage, { DEFAULT_MEDIA_QUERY } from '../../lib/postcss-plugin.js';
+const { resolve } = require('path');
+const postcss = require('postcss');
+const bgImage = require('../../lib/postcss-plugin.js');
+const { DEFAULT_MEDIA_QUERY } = bgImage;
 
-export const baseOptions = {
+const baseOptions = {
   retinaSuffix: '@2x',
   mediaQuery: DEFAULT_MEDIA_QUERY,
   assetDirectory: resolve(__dirname, '../fixtures')
 };
 
-export function run(input, options) {
+function run(input, options) {
   return postcss([ bgImage(options) ])
     .process(input, {from: 'tests/test.css'})
     .then((result) => {
@@ -18,3 +19,5 @@ export function run(input, options) {
       };
     });
 }
+
+module.exports = { run, baseOptions };

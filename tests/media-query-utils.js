@@ -1,7 +1,7 @@
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+const { describe, it } = require('mocha');
+const { expect } = require('chai');
 
-import { queryCoversRange, distributeQueryAcrossQuery } from '../lib/utils/media-query';
+const { queryCoversRange, distributeQueryAcrossQuery } = require('../lib/utils/media-query');
 
 describe('queryCoversRange', function() {
   describe('matches', function() {
