@@ -1,7 +1,10 @@
 language: node_js
 node_js:
-- '4'
-script: npm run test:ci
+- '6'
+- '7'
+
+cache: yarn
+
 notifications:
   email: false
   pushover:

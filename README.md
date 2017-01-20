@@ -57,8 +57,8 @@ The idea of this plugin is to detect any background images in your CSS and, if a
 ## API
 
 ```javascript
-import postcss from 'postcss';
-import retinaBgImage from 'postcss-retina-bg-img';
+const postcss = require('postcss');
+const retinaBgImage = require('postcss-retina-bg-img');
 
 const options = {
   retinaSuffix: '...',

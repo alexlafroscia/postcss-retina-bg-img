@@ -1,10 +1,13 @@
-import { describe, it } from 'mocha';
-import chai, { expect } from 'chai';
-import chaiAsPromised from 'chai-as-promised';
-import { baseOptions, run } from './helpers';
+const { describe, it } = require('mocha');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
+const { baseOptions, run } = require('./helpers');
 
-import postcss from 'postcss';
-import bgImage, { DEFAULT_MEDIA_QUERY } from '../lib/postcss-plugin.js';
+const { expect } = chai;
+
+const postcss = require('postcss');
+const bgImage = require('../lib/postcss-plugin.js');
+const { DEFAULT_MEDIA_QUERY } = bgImage;
 
 chai.use(chaiAsPromised);
 

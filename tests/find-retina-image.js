@@ -1,9 +1,9 @@
-import path from 'path';
+const path = require('path');
 
-import { describe, it } from 'mocha';
-import { expect } from 'chai';
+const { describe, it } = require('mocha');
+const { expect } = require('chai');
 
-import findRetinaImage from '../lib/find-retina-image.js';
+const findRetinaImage = require('../lib/find-retina-image.js');
 
 const fixturePath = path.join(__dirname, 'fixtures');
 
