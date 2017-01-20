@@ -3,6 +3,9 @@
   "version": "2.1.1",
   "description": "Automatically add retina background images",
   "main": "lib/postcss-plugin.js",
+  "engines" : {
+    "node" : ">=6"
+  },
   "files": [
     "lib"
   ],
