@@ -3,7 +3,9 @@ node_js:
 - '4'
 - '6'
 - '7'
-script: npm run test:ci
+
+cache: yarn
+
 notifications:
   email: false
   pushover:
