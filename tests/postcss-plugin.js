@@ -500,4 +500,63 @@ describe('PostCSS Plugin', function() {
       });
     });
   });
+
+  describe('handling quotes URLs', function() {
+    it('works with single quotes', function() {
+      const css = `
+        a {
+          background-image: url('file-with-one-retina.png');
+        }
+      `;
+
+      return run(css, {
+        mediaQuery: DEFAULT_MEDIA_QUERY,
+        assetDirectory: baseOptions.assetDirectory
+      }).then(function({ output }) {
+        const mq = output.nodes[1];
+        const [mqRule] = mq.nodes;
+        const [decl] = mqRule.nodes;
+
+        expect(decl.value).to.equal("url('file-with-one-retina@2x.png')");
+      });
+    });
+
+    it('works with double quotes', function() {
+      const css = `
+        a {
+          background-image: url("file-with-one-retina.png");
+        }
+      `;
+
+      return run(css, {
+        mediaQuery: DEFAULT_MEDIA_QUERY,
+        assetDirectory: baseOptions.assetDirectory
+      }).then(function({ output }) {
+        const mq = output.nodes[1];
+        const [mqRule] = mq.nodes;
+        const [decl] = mqRule.nodes;
+
+        expect(decl.value).to.equal("url('file-with-one-retina@2x.png')");
+      });
+    });
+
+    it('works with no quotes', function() {
+      const css = `
+        a {
+          background-image: url(file-with-one-retina.png);
+        }
+      `;
+
+      return run(css, {
+        mediaQuery: DEFAULT_MEDIA_QUERY,
+        assetDirectory: baseOptions.assetDirectory
+      }).then(function({ output }) {
+        const mq = output.nodes[1];
+        const [mqRule] = mq.nodes;
+        const [decl] = mqRule.nodes;
+
+        expect(decl.value).to.equal("url('file-with-one-retina@2x.png')");
+      });
+    });
+  });
 });
