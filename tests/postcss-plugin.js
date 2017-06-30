@@ -25,11 +25,13 @@ describe('PostCSS Plugin', function() {
 
       expect(warnings.length).to.equal(1);
 
-      const [ warning ] = warnings;
+      const [warning] = warnings;
 
       expect(warning.line).to.equal(3);
       expect(warning.column).to.equal(9);
-      expect(warning.text).to.equal('Could not find retina version for `file-without-retina.png`');
+      expect(warning.text).to.equal(
+        'Could not find retina version for `file-without-retina.png`'
+      );
     });
   });
 
@@ -43,23 +45,29 @@ describe('PostCSS Plugin', function() {
     `;
 
     return run(css, baseOptions).then(function({ output }) {
-      const [ originalMqRule, newMqRule ] = output.nodes;
+      const [originalMqRule, newMqRule] = output.nodes;
 
       expect(originalMqRule.params).to.equal('(min-width: 600px)');
-      expect(newMqRule.params).to.equal('(-webkit-min-device-pixel-ratio: 2) and (min-width: 600px), (min-resolution: 192dpi) and (min-width: 600px)');
+      expect(newMqRule.params).to.equal(
+        '(-webkit-min-device-pixel-ratio: 2) and (min-width: 600px), (min-resolution: 192dpi) and (min-width: 600px)'
+      );
 
-      expect(originalMqRule.nodes[0].nodes[0].value).to.equal("url('file-with-one-retina.png')");
-      expect(newMqRule.nodes[0].nodes[0].value).to.equal("url('file-with-one-retina@2x.png')");
+      expect(originalMqRule.nodes[0].nodes[0].value).to.equal(
+        "url('file-with-one-retina.png')"
+      );
+      expect(newMqRule.nodes[0].nodes[0].value).to.equal(
+        "url('file-with-one-retina@2x.png')"
+      );
 
       output.nodes.forEach(function(mq) {
         expect(mq.type).to.equal('atrule');
         expect(mq.name).to.equal('media');
         expect(mq.nodes.length).to.equal(1);
 
-        const [ firstRule ] = mq.nodes;
+        const [firstRule] = mq.nodes;
         expect(firstRule.selector).to.equal('a');
 
-        const [ decl ] = firstRule.nodes;
+        const [decl] = firstRule.nodes;
         expect(decl.prop).to.equal('background-image');
       });
     });
@@ -74,9 +82,9 @@ describe('PostCSS Plugin', function() {
       `;
 
       return run(css, baseOptions).then(function({ output }) {
-        const [ , mq ] = output.nodes;
-        const [ retinaRule ] = mq.nodes;
-        const [ bgDecl ] = retinaRule.nodes;
+        const [, mq] = output.nodes;
+        const [retinaRule] = mq.nodes;
+        const [bgDecl] = retinaRule.nodes;
 
         expect(bgDecl.value).to.equal("url('/file-with-one-retina@2x.png')");
       });
@@ -106,11 +114,13 @@ describe('PostCSS Plugin', function() {
       `;
 
       return run(css, {}).then(function({ output }) {
-        const [ , mq ] = output.nodes;
-        const [ retinaRule ] = mq.nodes;
-        const [ bgDecl ] = retinaRule.nodes;
+        const [, mq] = output.nodes;
+        const [retinaRule] = mq.nodes;
+        const [bgDecl] = retinaRule.nodes;
 
-        expect(bgDecl.value).to.equal("url('./fixtures/file-with-one-retina@2x.png')");
+        expect(bgDecl.value).to.equal(
+          "url('./fixtures/file-with-one-retina@2x.png')"
+        );
       });
     });
   });
@@ -128,10 +138,10 @@ describe('PostCSS Plugin', function() {
         expect(mq.type).to.equal('atrule');
         expect(mq.name).to.equal('media');
 
-        const [ mqRule ] = mq.nodes;
+        const [mqRule] = mq.nodes;
         expect(mqRule.selector).to.equal('a');
 
-        const [ decl ] = mqRule.nodes;
+        const [decl] = mqRule.nodes;
         expect(decl.prop).to.equal('background-image');
         expect(decl.value).to.equal("url('file-with-one-retina@2x.png')");
       });
@@ -151,10 +161,10 @@ describe('PostCSS Plugin', function() {
         expect(mq.type).to.equal('atrule');
         expect(mq.name).to.equal('media');
 
-        const [ mqRule ] = mq.nodes;
+        const [mqRule] = mq.nodes;
         expect(mqRule.selector).to.equal('a');
 
-        const [ decl ] = mqRule.nodes;
+        const [decl] = mqRule.nodes;
         expect(decl.prop).to.equal('background-image');
         expect(decl.value).to.equal("url('file-with-one-retina@2x.png')");
       });
@@ -170,8 +180,8 @@ describe('PostCSS Plugin', function() {
       return run(css, baseOptions).then(function({ output }) {
         expect(output.nodes.length).to.equal(1);
 
-        const [ rule ] = output.nodes;
-        const [ decl ] = rule.nodes;
+        const [rule] = output.nodes;
+        const [decl] = rule.nodes;
 
         expect(decl.value).to.equal('red');
       });
@@ -189,10 +199,10 @@ describe('PostCSS Plugin', function() {
         expect(mq.type).to.equal('atrule');
         expect(mq.name).to.equal('media');
 
-        const [ mqRule ] = mq.nodes;
+        const [mqRule] = mq.nodes;
         expect(mqRule.selector).to.equal('a');
 
-        const [ decl ] = mqRule.nodes;
+        const [decl] = mqRule.nodes;
         expect(decl.prop).to.equal('background-image');
         expect(decl.value).to.equal("url('file-with-one-retina@2x.png')");
       });
@@ -208,9 +218,9 @@ describe('PostCSS Plugin', function() {
       `;
 
       return run(css, baseOptions).then(function({ output }) {
-        const [ , mq ] = output.nodes;
-        const [ mqRule ] = mq.nodes;
-        const [ decl ] = mqRule.nodes;
+        const [, mq] = output.nodes;
+        const [mqRule] = mq.nodes;
+        const [decl] = mqRule.nodes;
 
         expect(output.nodes.length).to.equal(2);
         expect(decl.value).to.equal("url('file-with-one-retina@2x.png')");
@@ -220,7 +230,8 @@ describe('PostCSS Plugin', function() {
 
   describe('avoiding existing retina images', function() {
     it('does not add a retina rule of one already exists for the selector', function() {
-      const providedRetinaBackgroundProperty = "url('some-other-retina-image.png')";
+      const providedRetinaBackgroundProperty =
+        "url('some-other-retina-image.png')";
       const css = `
         a {
           background-image: url('file-with-one-retina.png');
@@ -241,8 +252,8 @@ describe('PostCSS Plugin', function() {
         expect(oldMediaQuery.type).to.equal('atrule');
         expect(oldMediaQuery.name).to.equal('media');
 
-        const [ rule ] = oldMediaQuery.nodes;
-        const [ decl ] = rule.nodes;
+        const [rule] = oldMediaQuery.nodes;
+        const [decl] = rule.nodes;
 
         expect(decl.value).to.equal(providedRetinaBackgroundProperty);
 
@@ -251,7 +262,8 @@ describe('PostCSS Plugin', function() {
     });
 
     it('issues a warning to the developer if a manually defined bg image matches the generated one', function() {
-      const providedRetinaBackgroundProperty = "url('file-with-one-retina@2x.png')";
+      const providedRetinaBackgroundProperty =
+        "url('file-with-one-retina@2x.png')";
       const css = `
         a {
           background-image: url('file-with-one-retina.png');
@@ -272,17 +284,19 @@ describe('PostCSS Plugin', function() {
         expect(oldMediaQuery.type).to.equal('atrule');
         expect(oldMediaQuery.name).to.equal('media');
 
-        const [ rule ] = oldMediaQuery.nodes;
-        const [ decl ] = rule.nodes;
+        const [rule] = oldMediaQuery.nodes;
+        const [decl] = rule.nodes;
 
         expect(decl.value).to.equal(providedRetinaBackgroundProperty);
 
-        const [ warning ] = warnings;
+        const [warning] = warnings;
 
         expect(warnings.length).to.equal(1);
         expect(warning.line).to.equal(8);
         expect(warning.column).to.equal(13);
-        expect(warning.text).to.equal('Unncessary retina image provided; the same will be generated automatically');
+        expect(warning.text).to.equal(
+          'Unncessary retina image provided; the same will be generated automatically'
+        );
       });
     });
 
@@ -328,10 +342,12 @@ describe('PostCSS Plugin', function() {
           expect(mq.name).to.equal('media');
         });
 
-        const [ firstRule, secondRule ] = output.nodes;
+        const [firstRule, secondRule] = output.nodes;
 
         expect(firstRule.params).to.equal('(min-width: 600px)');
-        expect(secondRule.params).to.equal('(-webkit-min-device-pixel-ratio: 2) and (min-width: 600px), (min-resolution: 192dpi) and (min-width: 600px)');
+        expect(secondRule.params).to.equal(
+          '(-webkit-min-device-pixel-ratio: 2) and (min-width: 600px), (min-resolution: 192dpi) and (min-width: 600px)'
+        );
 
         expect(warnings.length).to.equal(1);
       });
@@ -352,8 +368,8 @@ describe('PostCSS Plugin', function() {
         assetDirectory: baseOptions.assetDirectory
       }).then(function({ output }) {
         const mq = output.nodes[1];
-        const [ mqRule ] = mq.nodes;
-        const [ decl ] = mqRule.nodes;
+        const [mqRule] = mq.nodes;
+        const [decl] = mqRule.nodes;
 
         expect(decl.value).to.equal("url('file-with-other-retina_2x.png')");
       });
@@ -394,18 +410,28 @@ describe('PostCSS Plugin', function() {
       }).then(function({ output }) {
         const nodes = output.nodes;
 
-        expect(nodes[0].nodes[0].value).to.equal("url('file-with-svg-ext.svg')");
-        expect(nodes[1].nodes[0].nodes[0].value).to.equal("url('file-with-svg-ext@2x.svg')");
-        expect(nodes[2].nodes[0].value).to.equal("url('file-with-one-retina.png')");
-        expect(nodes[3].nodes[0].nodes[0].value).to.equal("url('file-with-one-retina@2x.png')");
+        expect(nodes[0].nodes[0].value).to.equal(
+          "url('file-with-svg-ext.svg')"
+        );
+        expect(nodes[1].nodes[0].nodes[0].value).to.equal(
+          "url('file-with-svg-ext@2x.svg')"
+        );
+        expect(nodes[2].nodes[0].value).to.equal(
+          "url('file-with-one-retina.png')"
+        );
+        expect(nodes[3].nodes[0].nodes[0].value).to.equal(
+          "url('file-with-one-retina@2x.png')"
+        );
       });
     });
 
     describe('default options', function() {
       it('errors if an asset directory is not specified', function() {
-        const processCSS = postcss([ bgImage({}) ]).process('a {}');
+        const processCSS = postcss([bgImage({})]).process('a {}');
 
-        return expect(processCSS).to.be.rejectedWith('You must provide an asset directory');
+        return expect(processCSS).to.be.rejectedWith(
+          'You must provide an asset directory'
+        );
       });
 
       it('uses the "CSS-Tricks" recommended media query if none is provided', function() {
@@ -438,8 +464,8 @@ describe('PostCSS Plugin', function() {
           assetDirectory: baseOptions.assetDirectory
         }).then(function({ output }) {
           const mq = output.nodes[1];
-          const [ mqRule ] = mq.nodes;
-          const [ decl ] = mqRule.nodes;
+          const [mqRule] = mq.nodes;
+          const [decl] = mqRule.nodes;
 
           expect(decl.value).to.equal("url('file-with-one-retina@2x.png')");
         });
@@ -461,9 +487,15 @@ describe('PostCSS Plugin', function() {
         }).then(function({ output }) {
           const nodes = output.nodes;
 
-          expect(nodes[0].nodes[0].value).to.equal("url('file-with-svg-ext.svg')");
-          expect(nodes[1].nodes[0].value).to.equal("url('file-with-one-retina.png')");
-          expect(nodes[2].nodes[0].nodes[0].value).to.equal("url('file-with-one-retina@2x.png')");
+          expect(nodes[0].nodes[0].value).to.equal(
+            "url('file-with-svg-ext.svg')"
+          );
+          expect(nodes[1].nodes[0].value).to.equal(
+            "url('file-with-one-retina.png')"
+          );
+          expect(nodes[2].nodes[0].nodes[0].value).to.equal(
+            "url('file-with-one-retina@2x.png')"
+          );
         });
       });
     });

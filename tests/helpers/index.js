@@ -10,9 +10,9 @@ const baseOptions = {
 };
 
 function run(input, options) {
-  return postcss([ bgImage(options) ])
-    .process(input, {from: 'tests/test.css'})
-    .then((result) => {
+  return postcss([bgImage(options)])
+    .process(input, { from: 'tests/test.css' })
+    .then(result => {
       return {
         output: postcss.parse(result.css),
         warnings: result.warnings()

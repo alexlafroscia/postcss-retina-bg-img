@@ -1,7 +1,10 @@
 const { describe, it } = require('mocha');
 const { expect } = require('chai');
 
-const { queryCoversRange, distributeQueryAcrossQuery } = require('../lib/utils/media-query');
+const {
+  queryCoversRange,
+  distributeQueryAcrossQuery
+} = require('../lib/utils/media-query');
 
 describe('queryCoversRange', function() {
   describe('matches', function() {
@@ -23,8 +26,10 @@ describe('queryCoversRange', function() {
       },
       {
         name: 'a complex query with multiple `OR` and `AND` parts',
-        less: '(min-width: 600px) and (max-width: 650px), (min-width: 700px) and (max-width: 750px)',
-        more: '(min-width: 600px) and (max-width: 650px) and screen, (min-width: 700px) and (max-width: 750px) and screen',
+        less:
+          '(min-width: 600px) and (max-width: 650px), (min-width: 700px) and (max-width: 750px)',
+        more:
+          '(min-width: 600px) and (max-width: 650px) and screen, (min-width: 700px) and (max-width: 750px) and screen'
       },
       {
         name: 'the same query parts combined with different operators',
@@ -48,7 +53,8 @@ describe('queryCoversRange', function() {
         more: '(max-width: 800px)'
       },
       {
-        name: 'a less restrictive query with parts not in the more restrictive query',
+        name:
+          'a less restrictive query with parts not in the more restrictive query',
         less: '(min-width: 600px) and (max-width: 800px)',
         more: '(min-width: 600px)'
       }
@@ -76,7 +82,9 @@ describe('distributeQueryAcrossQuery', function() {
     const b = 'screen';
     const result = distributeQueryAcrossQuery(a, b);
 
-    expect(result).to.equal('(min-width: 600px) and screen, (max-width: 800px) and screen');
+    expect(result).to.equal(
+      '(min-width: 600px) and screen, (max-width: 800px) and screen'
+    );
   });
 
   it('combines a media query with more than two parts', function() {
@@ -84,7 +92,9 @@ describe('distributeQueryAcrossQuery', function() {
     const b = 'screen';
     const result = distributeQueryAcrossQuery(a, b);
 
-    expect(result).to.equal('(min-width: 600px) and screen, (min-width: 700px) and screen, (min-width: 800px) and screen');
+    expect(result).to.equal(
+      '(min-width: 600px) and screen, (min-width: 700px) and screen, (min-width: 800px) and screen'
+    );
   });
 
   it('combines two media queries with multiple parts', function() {
@@ -92,6 +102,8 @@ describe('distributeQueryAcrossQuery', function() {
     const b = 'baz, bop';
     const result = distributeQueryAcrossQuery(a, b);
 
-    expect(result).to.equal('foo and baz, foo and bop, bar and baz, bar and bop');
+    expect(result).to.equal(
+      'foo and baz, foo and bop, bar and baz, bar and bop'
+    );
   });
 });

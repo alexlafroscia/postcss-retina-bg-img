@@ -1,7 +1,11 @@
 const { describe, it } = require('mocha');
 const { expect } = require('chai');
 
-const { isFullUrlPath, isAbsoluteFilePath, makeAbsoluteFilePath } = require('../lib/utils/image-url');
+const {
+  isFullUrlPath,
+  isAbsoluteFilePath,
+  makeAbsoluteFilePath
+} = require('../lib/utils/image-url');
 
 describe('isFullUrlPath', function() {
   it('accepts an HTTP string', function() {

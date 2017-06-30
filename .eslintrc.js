@@ -3,8 +3,12 @@ module.exports = {
     es6: true,
     node: true
   },
-  extends: 'eslint:recommended',
+  extends: [
+    'eslint:recommended',
+    'prettier'
+  ],
   plugins: [
+    'prettier',
     'mocha'
   ],
   parserOptions: {
@@ -19,6 +23,11 @@ module.exports = {
     }],
     'no-console': 'warn',
     semi: ['error','always'],
+
+    // Prettier
+    'prettier/prettier': ['error', {
+      singleQuote: true
+    }],
 
     // Mocha
     'mocha/no-exclusive-tests': 'warn',
