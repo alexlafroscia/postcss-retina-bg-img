@@ -45,6 +45,6 @@
   },
   "repository": "alexlafroscia/postcss-retina-bg-img",
   "dependencies": {
-    "postcss": "^5.1.2"
+    "postcss": "^6.0.11"
   }
 }
