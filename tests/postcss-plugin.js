@@ -123,6 +123,42 @@ describe('PostCSS Plugin', function() {
         );
       });
     });
+
+    it('finds multiple images when provided', function() {
+      const css = `
+        a {
+          background-image: url('./fixtures/file-with-one-retina.png'), url(./fixtures/file-with-one-retina-2.png);
+        }
+      `;
+
+      return run(css, {}).then(function({ output }) {
+        const [, mq] = output.nodes;
+        const [retinaRule] = mq.nodes;
+        const [bgDecl] = retinaRule.nodes;
+
+        expect(bgDecl.value).to.equal(
+          "url('./fixtures/file-with-one-retina@2x.png'), url('./fixtures/file-with-one-retina-2@2x.png')"
+        );
+      });
+    });
+
+    it('includes original image with no retine alternative when multiple images are provided', function() {
+      const css = `
+        a {
+          background-image: url('./fixtures/file-with-one-retina.png'), url(./fixtures/file-without-retina.png);
+        }
+      `;
+
+      return run(css, {}).then(function({ output }) {
+        const [, mq] = output.nodes;
+        const [retinaRule] = mq.nodes;
+        const [bgDecl] = retinaRule.nodes;
+
+        expect(bgDecl.value).to.equal(
+          "url('./fixtures/file-with-one-retina@2x.png'), url('./fixtures/file-without-retina.png')"
+        );
+      });
+    });
   });
 
   describe('`background-image` property', function() {
