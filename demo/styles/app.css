@@ -1,17 +1,17 @@
 .regular-image {
-  background-image: url('file-with-one-retina.txt');
+  background-image: url('file-with-one-retina.png');
 }
 
 .no-retina {
-  background-image: url('file-with-no-retina.txt');
+  background-image: url('file-with-no-retina.png');
 }
 
 .explicit-retina-image {
-  background-image: url('file-with-one-retina.txt');
+  background-image: url('file-with-one-retina.png');
 }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .explicit-retina-image {
-    background-image: url('file-with-one-retina@2x.txt');
+    background-image: url('file-with-one-retina@2x.png');
   }
 }
