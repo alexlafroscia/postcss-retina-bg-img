@@ -9,15 +9,15 @@ const baseOptions = {
   assetDirectory: resolve(__dirname, '../fixtures')
 };
 
-function run(input, options) {
-  return postcss([bgImage(options)])
-    .process(input, { from: 'tests/test.css' })
-    .then(result => {
-      return {
-        output: postcss.parse(result.css),
-        warnings: result.warnings()
-      };
-    });
+async function run(input, options) {
+  const result = await postcss([bgImage(options)]).process(input, {
+    from: 'tests/test.css'
+  });
+
+  return {
+    output: postcss.parse(result.css),
+    warnings: result.warnings()
+  };
 }
 
 module.exports = { run, baseOptions };
