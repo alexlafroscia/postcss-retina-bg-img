@@ -11,19 +11,7 @@ module.exports = {
     'prettier',
     'mocha'
   ],
-  parserOptions: {
-    sourceType: 'module'
-  },
   rules: {
-    // Built-in
-    indent: ['error', 2],
-    'linebreak-style': ['error', 'unix'],
-    quotes: ['error', 'single', {
-      avoidEscape: true
-    }],
-    'no-console': 'warn',
-    semi: ['error','always'],
-
     // Prettier
     'prettier/prettier': ['error', {
       singleQuote: true
@@ -32,6 +20,9 @@ module.exports = {
     // Mocha
     'mocha/no-exclusive-tests': 'warn',
     'mocha/no-pending-tests': 'warn',
-    'mocha/no-skipped-tests': 'warn'
+    'mocha/no-skipped-tests': 'warn',
+
+    // Built-in
+    'no-console': 'warn'
   }
 };
