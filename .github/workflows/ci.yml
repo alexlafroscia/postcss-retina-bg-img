@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['6', '8', '10', '12']
+        node-version: ['10', '12']
     steps:
       - uses: actions/checkout@v1
       - uses: volta-cli/action@v1

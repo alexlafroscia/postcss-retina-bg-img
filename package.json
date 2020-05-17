@@ -4,7 +4,7 @@
   "description": "Automatically add retina background images",
   "main": "lib/postcss-plugin.js",
   "engines": {
-    "node": ">=6"
+    "node": ">=10"
   },
   "files": [
     "lib"
@@ -12,7 +12,6 @@
   "scripts": {
     "demo": "cd demo && gulp && echo '' && cat output/app.css",
     "lint": "eslint lib tests",
-    "lint:fix": "eslint --fix lib tests",
     "test": "mocha tests"
   },
   "keywords": [
@@ -48,7 +47,7 @@
     "postcss": "^6.0.11"
   },
   "volta": {
-    "node": "6.17.1",
+    "node": "12.16.3",
     "yarn": "1.22.4"
   }
 }
