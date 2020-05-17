@@ -63,7 +63,8 @@ const options = {
   retinaSuffix: '...',
   mediaQuery: '...',
   assetDirectory: '...',
-  includeFileExtensions: [ '...' ]
+  includeFileExtensions: [ '...' ],
+  logMissingImages: true,
 };
 
 return postcss([ retinaBgImage(options) ]).process(input);
@@ -117,6 +118,13 @@ Type: `string[]`
 Default `['png', 'jpg']`
 
 The file extensions to act on. Without a whitelist of file types, you'll end up checking for retina versions of `svg` files and the like, which you may not actually want to act on.  If you need to check anything other than `png` or `jpg` files, simply define an array of file extensions here.
+
+##### logMissingImages *(optional)*
+
+Type: `boolean`
+Default `true`
+
+By default the plugin will report warnings if it encountered an image without a corresponding retina version. If you wish to turn off logging you can set this option to `false`.
 
 ## Usage
 
