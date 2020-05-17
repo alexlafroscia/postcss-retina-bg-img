@@ -46,5 +46,9 @@
   "repository": "alexlafroscia/postcss-retina-bg-img",
   "dependencies": {
     "postcss": "^6.0.11"
+  },
+  "volta": {
+    "node": "6.17.1",
+    "yarn": "1.22.4"
   }
 }
