@@ -34,6 +34,24 @@ describe('PostCSS Plugin', function() {
     );
   });
 
+  it('does not display a warning if warnings are turned off via the options if the retina image is not found', async function() {
+    const css = `
+      a {
+        background-image: url('file-without-retina.png');
+      }
+    `;
+
+    const { output, warnings } = await run(
+      css,
+      Object.assign({}, baseOptions, { logMissingImages: false })
+    );
+
+    expect(output.nodes.length).to.equal(1);
+    expect(output.nodes[0].type).to.equal('rule');
+
+    expect(warnings.length).to.equal(0);
+  });
+
   it('merges media queries', async function() {
     const css = `
       @media (min-width: 600px) {
